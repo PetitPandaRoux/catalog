@@ -8,13 +8,12 @@ from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
 
-
 #DataBase
-#engine = create_engine('sqlite:///catalog.db')
-#Base.metadata.bind = engine
+engine = create_engine('sqlite:///catalog.db')
+Base.metadata.bind = engine
 #
-#DBSession = sessionmaker(bind=engine)
-#session = DBSession()
+DBSession = sessionmaker(bind=engine)
+
 
 @app.route('/')
 @app.route('/catalog/')
