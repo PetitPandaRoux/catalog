@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="widht=device-width, initial-scale=1">
+	  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type='text/css'> 
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	</head>
+	<body>
+		<div class="main">
+      {% include "header.html" %}
+      <section class="container">
+        <div class=sidebar>
+          {% include "sidebar.html" %}
+        </div>
+      <div class="content">
+      	{% block content %}
+			  {% endblock %}
+
+      </section>
+		
+		</div>
+	</body>
+</html>
