@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 
 #DataBase
-#engine = create_engine('sqlite:///lpfp.db')
+#engine = create_engine('sqlite:///catalog.db')
 #Base.metadata.bind = engine
 #
 #DBSession = sessionmaker(bind=engine)
