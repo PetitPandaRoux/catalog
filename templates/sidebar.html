@@ -1,6 +1,13 @@
 <ul>
+  <li><a href="{{url_for('show_home')}}">Home</a></li>
   <li><a href="{{url_for('show_members')}}">Members</a></li>
-  <li>Machines</li>
-  <li>Books</li>
-  <li>Projects</li>
+  <li><a href="{{url_for('show_machines')}}">Machines</a></li>
+  <li class="menu__project"><a href="{{url_for('show_projects')}}">Projects</a>
+    <ul class="submenu__project">
+      <li>Arduino</li>
+      <li>3D printer</li>
+      <li>Laser cutter</li>
+      <li>Portable electric</li>
+    </ul>
+  </li>
 </ul>

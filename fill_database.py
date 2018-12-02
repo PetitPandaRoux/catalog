@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from setup_database import Base, Member, Machine, Project, Tag, Book
+from setup_database import Base, Member, Machine, Project, Tag
 
-engine = create_engine('sqlite:///lepetitfablabdeparis.db')
+engine = create_engine('sqlite:///lepetitfablabdeparis.db', encoding='utf-8')
 
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
@@ -16,6 +16,14 @@ session.commit()
 
 member2 = Member(name="Sakada", email="lysakada@gmail.com", inscription_date="10/10/17")
 session.add(member2)
+session.commit()
+
+member3 = Member(name="Izar", email="izarmediavilla@gmail.com", inscription_date="10/09/16")
+session.add(member3)
+session.commit()
+
+member4 = Member(name="Adel", email="adel@gmail.com", inscription_date="01/10/17")
+session.add(member4)
 session.commit()
 
 machine1 = Machine(name = "60W CO2 laser cutter", machine_type = "Laser cutter", quantity = 1, company = "Unknow", price = 5000, description = "Laser Cut of 60W from China. It can cut to 8mm plywood")
@@ -38,9 +46,6 @@ project2 = Project(name="Countdown Events Box", description="A box and a set of 
 session.add(project2)
 session.commit()
 
-book1 = Book(title="Fablabs, etc", author="Camille Bosque", parution_date="31/12/14", description="State of the art of the DIY movement")
-session.add(book1)
-session.commit()
 
 tag1 = Tag(project=project1, tag_name="Arduino")
 session.add(tag1)

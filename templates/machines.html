@@ -1,0 +1,11 @@
+{% extends "main.html" %}
+{% block content %}
+
+{% for machine in machines %}
+  <ul>
+    <li>Machine : {{machine}} </li>
+
+  </ul>
+{% endfor %}
+
+{% endblock %}

@@ -36,15 +36,6 @@ class Project(Base):
     member_id = Column(Integer, ForeignKey('member.id'))
     member = relationship(Member)
 
-class Book(Base):
-    __tablename__ = 'book'
-
-    id = Column(Integer, primary_key=True)
-    title = Column(String(250))
-    author = Column(String(250))
-    parution_date = Column(String(10)) #DD/MM/YY
-    description = Column(String(250))
-
 class Tag(Base):
     __tablename__ = 'tag'
 
@@ -53,5 +44,5 @@ class Tag(Base):
     project_id = Column(Integer, ForeignKey('project.id'))
     project = relationship(Project)
 
-engine = create_engine('sqlite:///lepetitfablabdeparis.db')
+engine = create_engine('sqlite:///lepetitfablabdeparis.db', encoding='utf-8')
 Base.metadata.create_all(engine)
