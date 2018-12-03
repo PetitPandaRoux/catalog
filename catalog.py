@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, desc, asc
 from sqlalchemy.orm import sessionmaker
 from setup_database import Base, Member, Machine, Project, Tag
 
@@ -39,9 +39,37 @@ def show_machines():
 @app.route('/catalog/projects')
 def show_projects():
     session = DBSession()
-    projects = session.query(Project).all()
+    projects = session.query(Project).order_by(desc(Project.id)).limit(5)
     session.close()
     return render_template('projects.html', projects=projects)
+
+@app.route('/catalog/projects/arduino')
+def show_projects_arduino():
+    session = DBSession()
+    projects = session.query(Project).join(Tag).filter(Tag.tag_name == 'Arduino').all()
+    session.close()
+    return render_template('projects_arduino.html', projects=projects)
+
+@app.route('/catalog/projects/3D_printer')
+def show_projects_3D_printer():
+    session = DBSession()
+    projects = session.query(Project).join(Tag).filter(Tag.tag_name == '3D printer').all()
+    session.close()
+    return render_template('projects_3D_printer.html', projects=projects)
+
+@app.route('/catalog/projects/laser_cutter')
+def show_projects_laser_cutter():
+    session = DBSession()
+    projects = session.query(Project).join(Tag).filter(Tag.tag_name == 'Laser cutter').all()
+    session.close()
+    return render_template('projects_laser_cutter.html', projects=projects)
+
+@app.route('/catalog/projects/portable_electric')
+def show_projects_portable_electric():
+    session = DBSession()
+    projects = session.query(Project).join(Tag).filter(Tag.tag_name == 'Portable electric').all()
+    session.close()
+    return render_template('projects_portable_electric.html', projects=projects)
 
 if __name__ == '__main__':
     app.secret_key = "super_secret_key"
