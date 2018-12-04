@@ -3,10 +3,12 @@
 <div class="content__container">
   {% for member in members %}
     <ul class="card">
-      <li class="card__primary_element">Name : {{member.name}} </li>
-      <li class="card__picture-frame"><img class="card__picture" src="{{ url_for('static', filename='avatar/'+member.picture)}}"></li>
-      <li>Email : {{member.email}}</li>
-      <li>Inscription date : {{member.inscription_date}}</li>
+      <a href="{{url_for('show_member', member_id=member.id)}}">
+        <li class="card__primary_element">Name : {{member.name}} </li>
+        <li class="card__picture-frame"><img class="card__picture" src="{{ url_for('static', filename='avatar/'+member.picture)}}"></li>
+        <li>Email : {{member.email}}</li>
+
+      </a>
     </ul>
   {% endfor %}
 </div>

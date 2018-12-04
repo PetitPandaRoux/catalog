@@ -22,6 +22,7 @@ def show_home():
 def show_connection():
     return "Ici on se connecte sois avec Oauth sois on s'inscrit"
 
+# Show all members, their avatars and their names
 @app.route('/catalog/members')
 def show_members():
     session = DBSession()
@@ -29,6 +30,14 @@ def show_members():
     session.close()
     return render_template('members.html', members=members)
 
+# Show member with information and projects realized
+@app.route('/catalog/member/<member_id>')
+def show_member(member_id):
+    session = DBSession()
+    member = session.query(Member).filter_by(id=member_id).one()
+    return render_template('member.html', member = member)
+
+# Show main machines present inside the fablab
 @app.route('/catalog/machines')
 def show_machines():
     session = DBSession()
@@ -36,6 +45,7 @@ def show_machines():
     session.close()
     return render_template('machines.html', machines=machines)
 
+# Show the latest 5 projects
 @app.route('/catalog/projects')
 def show_projects():
     session = DBSession()
@@ -43,8 +53,17 @@ def show_projects():
     session.close()
     return render_template('projects.html', projects=projects)
 
+# Show all project using a certain catagory of tool
 @app.route('/catalog/projects/<tag_name>/')
 def show_projects_tag(tag_name):
+    session = DBSession()
+    projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_',' ')).all()
+    session.close()
+    return render_template('projects_tag.html', projects=projects)
+
+# Show all information concerning one project
+@app.route('/catalog/projects/<tag_name>/<int:project_id>')
+def show_project(tag_name):
     session = DBSession()
     projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_',' ')).all()
     session.close()
