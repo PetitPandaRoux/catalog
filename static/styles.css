@@ -70,12 +70,11 @@ a {
 
 .sidebar {
   flex:1;
-  background-color:#667278;
+  background-color:#46494B;
   color:#D18454;
   height:100%;
   text-align:center;
   font-size:1.2rem;
-
 }
 
 .sidebar ul {
@@ -89,7 +88,7 @@ a {
 }
 
 .sidebar ul li:hover {
-  background-color:#46494B;
+  background-color:#667278;
 }
 
 .submenu__project {
@@ -100,7 +99,7 @@ a {
 
 .menu__project:hover .submenu__project {
   display:block;
-  background-color:#46494B;
+  background-color:#667278;
 }
 
 .content{
@@ -121,24 +120,23 @@ a {
   width:220px;
   text-align:center;
   list-style: none;  
-  margin:10px 40px 10px 40px;
-  border:solid grey 1px;
+  margin:10px 40px 30px 40px;
   border-radius:5px;
+  background-color:#E5E1D0;
+  padding-bottom:15px;
 }
 
-.card__first_element {
+.card__primary_element {
   padding:10px;
   margin:0px auto;
-  border-bottom: solid 1px grey;
+  color:#4C9952;
+  font-size: 1.1rem;
 }
 
 .card__picture {
   width:100%;
   height:auto;
-}
-
-.card__picture-frame {
-  margin:20px 10px;
+  margin-bottom:10px;
 }
 
 .quotes {

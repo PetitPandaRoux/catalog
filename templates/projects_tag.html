@@ -1,12 +1,12 @@
 {% extends "main.html" %}
 {% block content %}
-
-{% for project in projects %}
-  <ul>
-    <li>Project : {{project.name}} </li>
-    <li>id : {{project.id}}</li>
-
-  </ul>
-{% endfor %}
+<div class="content__container">
+  {% for project in projects %}
+    <ul class="card">
+      <li><img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}"></li>
+      <li class="card__primary_element" >Project : {{project.name}} </li>
+    </ul>
+  {% endfor %}
+</div>
 
 {% endblock %}

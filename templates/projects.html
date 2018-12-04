@@ -1,12 +1,20 @@
 {% extends "main.html" %}
 {% block content %}
 
-{% for project in projects %}
-  <ul>
-    <li>Project : {{project.name}} </li>
-    <li>id : {{project.id}}</li>
+<h2>Welcome to projects page of Le Petit Fablab de Paris</h2>
 
-  </ul>
-{% endfor %}
+<p>A Fablab come from Fabrication Laboratory, a place where people gather test, try, produce and share what they do<p>
+
+<p>You have a list of the last 5 projects, click on any on them to know more. </p>
+<p>For futher exploration we have organize our project by the tools they need to be fabricated (arduino, laser cutter, 3d printer etc...)</p>
+
+<div class="content__container">
+  {% for project in projects %}
+    <ul class="card">
+      <li class="card__picture-frame"><img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}"></li>
+      <li class="card__primary_element">Name : {{project.name}} </li>
+    </ul>
+  {% endfor %}
+</div>
 
 {% endblock %}
