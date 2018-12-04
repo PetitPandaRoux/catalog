@@ -4,10 +4,10 @@
   <li><a href="{{url_for('show_machines')}}">Machines</a></li>
   <li class="menu__project"><a href="{{url_for('show_projects')}}">Projects</a>
     <ul class="submenu__project">
-      <li><a href="{{url_for('show_projects_arduino')}}">Arduino</a></li>
-      <li><a href="{{url_for('show_projects_3D_printer')}}">3D printer</a></li>
-      <li><a href="{{url_for('show_projects_laser_cutter')}}">Laser cutter</a></li>
-      <li><a href="{{url_for('show_projects_portable_electric')}}">Portable electric</a></li>
+      <li><a href="{{url_for('show_projects_tag', tag_name="Arduino")}}">Arduino</a></li>
+      <li><a href="{{url_for('show_projects_tag', tag_name="3D_Printer")}}">3D printer</a></li>
+      <li><a href="{{url_for('show_projects_tag', tag_name="Laser_Cutter")}}">Laser cutter</a></li>
+      <li><a href="{{url_for('show_projects_tag', tag_name="Portable_Electric")}}">Portable electric</a></li>
     </ul>
   </li>
 </ul>

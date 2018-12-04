@@ -122,18 +122,18 @@ a {
   text-align:center;
   list-style: none;  
   margin:10px 40px 10px 40px;
-  border:solid #D18454 2px;
+  border:solid grey 1px;
   border-radius:5px;
 }
 
 .card__first_element {
   padding:10px;
   margin:0px auto;
-  border-bottom: solid 2px #D18454;
+  border-bottom: solid 1px grey;
 }
 
 .card__picture {
-  width:100px;
+  width:100%;
   height:auto;
 }
 

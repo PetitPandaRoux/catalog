@@ -43,33 +43,12 @@ def show_projects():
     session.close()
     return render_template('projects.html', projects=projects)
 
-@app.route('/catalog/projects/arduino')
-def show_projects_arduino():
+@app.route('/catalog/projects/<tag_name>/')
+def show_projects_tag(tag_name):
     session = DBSession()
-    projects = session.query(Project).join(Tag).filter(Tag.tag_name == 'Arduino').all()
+    projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_',' ')).all()
     session.close()
-    return render_template('projects_arduino.html', projects=projects)
-
-@app.route('/catalog/projects/3D_printer')
-def show_projects_3D_printer():
-    session = DBSession()
-    projects = session.query(Project).join(Tag).filter(Tag.tag_name == '3D printer').all()
-    session.close()
-    return render_template('projects_3D_printer.html', projects=projects)
-
-@app.route('/catalog/projects/laser_cutter')
-def show_projects_laser_cutter():
-    session = DBSession()
-    projects = session.query(Project).join(Tag).filter(Tag.tag_name == 'Laser cutter').all()
-    session.close()
-    return render_template('projects_laser_cutter.html', projects=projects)
-
-@app.route('/catalog/projects/portable_electric')
-def show_projects_portable_electric():
-    session = DBSession()
-    projects = session.query(Project).join(Tag).filter(Tag.tag_name == 'Portable electric').all()
-    session.close()
-    return render_template('projects_portable_electric.html', projects=projects)
+    return render_template('projects_tag.html', projects=projects)
 
 if __name__ == '__main__':
     app.secret_key = "super_secret_key"

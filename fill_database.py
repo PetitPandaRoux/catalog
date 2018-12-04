@@ -45,7 +45,7 @@ tag1 = Tag(project=project1, tag_name="Arduino")
 session.add(tag1)
 session.commit()
 
-tag2 = Tag(project=project1, tag_name="Laser cutter")
+tag2 = Tag(project=project1, tag_name="Laser Cutter")
 session.add(tag2)
 session.commit()
 
@@ -53,7 +53,7 @@ project2 = Project(name="Floor Table", description="Quick and lightweight, this 
 session.add(project2)
 session.commit()
 
-tag3 = Tag(project=project2, tag_name="Portable electric")
+tag3 = Tag(project=project2, tag_name="Portable Electric")
 session.add(tag3)
 session.commit()
 
@@ -61,7 +61,7 @@ project3 = Project(name="Butt Table", description="A Butt Table is a table made 
 session.add(project3)
 session.commit()
 
-tag4 = Tag(project=project3, tag_name="Portable electric")
+tag4 = Tag(project=project3, tag_name="Portable Electric")
 session.add(tag4)
 session.commit()
 
@@ -69,7 +69,7 @@ project4 = Project(name="Interactive Arduino Powered Coffee Table", description=
 session.add(project4)
 session.commit()
 
-tag5 = Tag(project=project4, tag_name="Portable electric")
+tag5 = Tag(project=project4, tag_name="Portable Electric")
 session.add(tag5)
 session.commit()
 
@@ -81,7 +81,7 @@ project5 = Project(name="Countdown Events Box", description="Countdown Events Bo
 session.add(project5)
 session.commit()
 
-tag7 = Tag(project=project5, tag_name="Laser cutter")
+tag7 = Tag(project=project5, tag_name="Laser Cutter")
 session.add(tag7)
 session.commit()
 
@@ -89,7 +89,7 @@ tag8 = Tag(project=project5, tag_name="Arduino")
 session.add(tag8)
 session.commit()
 
-tag9 = Tag(project=project5, tag_name="3D printer")
+tag9 = Tag(project=project5, tag_name="3D Printer")
 session.add(tag9)
 session.commit()
 
@@ -97,11 +97,11 @@ project6 = Project(name="Plank Chair", description="A simple and satisfying chai
 session.add(project6)
 session.commit()
 
-tag10 = Tag(project=project6, tag_name="Portable electric")
+tag10 = Tag(project=project6, tag_name="Portable Electric")
 session.add(tag10)
 session.commit()
 
-tag11 = Tag(project=project6, tag_name="Laser cutter")
+tag11 = Tag(project=project6, tag_name="Laser Cutter")
 session.add(tag11)
 session.commit()
 
@@ -113,7 +113,7 @@ tag12 = Tag(project=project7, tag_name="Arduino")
 session.add(tag12)
 session.commit()
 
-tag13 = Tag(project=project7, tag_name="3D printer")
+tag13 = Tag(project=project7, tag_name="3D Printer")
 session.add(tag13)
 session.commit()
 
@@ -129,7 +129,7 @@ project9 = Project(name="3D Print a Chess Set", description="In just eight steps
 session.add(project9)
 session.commit()
 
-tag15 = Tag(project=project9, tag_name="3D printer")
+tag15 = Tag(project=project9, tag_name="3D Printer")
 session.add(tag15)
 session.commit()
 
@@ -141,7 +141,7 @@ tag16 = Tag(project=project10, tag_name="Arduino")
 session.add(tag16)
 session.commit()
 
-tag17 = Tag(project=project10, tag_name="Laser cutter")
+tag17 = Tag(project=project10, tag_name="Laser Cutter")
 session.add(tag17)
 session.commit()
 
@@ -149,7 +149,7 @@ project11 = Project(name="Laser Cut Analog Clock", description="Inspired by the 
 session.add(project11)
 session.commit()
 
-tag18 = Tag(project=project11, tag_name="Laser cutter")
+tag18 = Tag(project=project11, tag_name="Laser Cutter")
 session.add(tag18)
 session.commit()
 
