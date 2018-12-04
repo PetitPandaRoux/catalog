@@ -118,7 +118,7 @@ a {
 }
 
 .card {
-  flex:1;
+  width:220px;
   text-align:center;
   list-style: none;  
   margin:10px 40px 10px 40px;
@@ -133,6 +133,11 @@ a {
 }
 
 .card__picture {
+  width:100px;
+  height:auto;
+}
+
+.card__picture-frame {
   margin:20px 10px;
 }
 

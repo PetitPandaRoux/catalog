@@ -9,19 +9,19 @@ DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
 
-member1 = Member(name="Laurent", email="barnier.lrnt@gmail.com", inscription_date="10/02/18" )
+member1 = Member(name="Laurent", email="barnier.lrnt@gmail.com", inscription_date="10/02/18", picture="laurent.png" )
 session.add(member1)
 session.commit()
 
-member2 = Member(name="Sakada", email="lysakada@gmail.com", inscription_date="10/10/17")
+member2 = Member(name="Sakada", email="lysakada@gmail.com", inscription_date="10/10/17", picture="sakada.png")
 session.add(member2)
 session.commit()
 
-member3 = Member(name="Izar", email="izarmediavilla@gmail.com", inscription_date="10/09/16")
+member3 = Member(name="Izar", email="izarmediavilla@gmail.com", inscription_date="10/09/16", picture="izar.png")
 session.add(member3)
 session.commit()
 
-member4 = Member(name="Adel", email="adel@gmail.com", inscription_date="01/10/17")
+member4 = Member(name="Adel", email="adel@gmail.com", inscription_date="01/10/17", picture="adel.png")
 session.add(member4)
 session.commit()
 

@@ -4,7 +4,7 @@
   {% for member in members %}
     <ul class="card">
       <li class="card__first_element">Name : {{member.name}} </li>
-      <li class="card__picture"><img src="{{ url_for('static', filename='blank_user.gif') }}"></li>
+      <li class="card__picture-frame"><img class="card__picture" src="{{ url_for('static', filename='avatar/'+member.picture)}}"></li>
       <li>Email : {{member.email}}</li>
       <li>Inscription date : {{member.inscription_date}}</li>
     </ul>
