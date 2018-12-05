@@ -4,14 +4,14 @@
 
 <div class="wrapper content__container">
   {% for member in members %}
-    <ul class="card">
+    <div class="card">
       <a href="{{url_for('show_member', member_id=member.id)}}">
-        <li class="card__primary_element">Name : {{member.name}} </li>
+        <div class="card__primary_element">Name : {{member.name}} </div>
         <img class="card__picture" src="{{ url_for('static', filename='avatar/'+member.picture)}}">
-        <li>Email : {{member.email}}</li>
+        <div>Email : {{member.email}}</div>
 
       </a>
-    </ul>
+    </div>
   {% endfor %}
 </div>
 

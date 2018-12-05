@@ -1,6 +1,7 @@
 {% extends "main.html" %}
 {% block content %}
 
+<h2 class="wrapper">Projects made inside the fablab using the following tools : {{tag_name}}</h2>
 
 <div class="btn__wrapper">
   <a href="{{url_for('new_project')}}">
@@ -11,15 +12,23 @@
 </div>
 
 <div class="content__container">
-
   {% for project in projects %}
     <a href="{{url_for('show_project', project_id = project.id)}}">
-      <ul class="card">
-      <img class="card__picture" src="{{ url_for('static', filename='project/'+project.picture)}}">
-        <li class="card__primary_element" >Project : {{project.name}} </li>
-        <li>{{project.member_id}}</li>
-        <li class="admin">
-      </ul>
+      <div class="card">
+        <img class="card__picture" src="{{ url_for('static', filename='project/'+project.picture)}}">
+          <div class="card__primary_element">
+          Name : {{project.name}} 
+          </div>
+
+        <div class="btn__container">
+          <div class='btn__edit'>
+            <a href = "#"> <i class='material-icons' style='color:#667278';>edit</i></a>
+          </div>
+          <div class='btn__delete'>
+            <a  href = "#"> <i class='material-icons' style='color:orangered';>delete_forever</i></a>  
+          </div>
+        </div>
+      </div>
     </a>
   {% endfor %}
 </div>
@@ -31,4 +40,5 @@
     </button>
   </a>
 </div>
+
 {% endblock %}

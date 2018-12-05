@@ -55,7 +55,7 @@ def show_projects():
     session.close()
     return render_template('projects.html', projects=projects)
 
-@app.route('/catalog/projects/<int:project_id>/ ')
+@app.route('/catalog/projects/<int:project_id>/')
 def show_project(project_id):
        session = DBSession()
        project = session.query(Project).filter_by(id=project_id).one()
@@ -77,7 +77,7 @@ def show_projects_tag(tag_name):
     session = DBSession()
     projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_',' ')).all()
     session.close()
-    return render_template('projectsTag.html', projects=projects)
+    return render_template('projectsTag.html', projects=projects, tag_name = tag_name)
 
 '''
 # Show all information concerning one project

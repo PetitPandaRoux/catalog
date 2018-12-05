@@ -33,14 +33,18 @@
   {% for project in projects %}
     <a href="{{url_for('show_project', project_id = project.id)}}">
       <div class="card">
-
         <img class="card__picture" src="{{ url_for('static', filename='project/'+project.picture)}}">
-          <div class="card__primary_element">Name : {{project.name}} </div>
-        <div class='item__button bg--main-yellow'>
-          <a  class='color--black no-style' href = "#"> <i class='material-icons' style='color:black;'>edit</i></a>
-        </div>
-        <div class='item__button bg--main-orange'>
-          <a  class='color--white no-style' href = "#"> <i class='material-icons';>delete_forever</i></a>  
+          <div class="card__primary_element">
+          Name : {{project.name}} 
+          </div>
+
+        <div class="btn__container">
+          <div class='btn__edit'>
+            <a href = "#"> <i class='material-icons' style='color:#667278';>edit</i></a>
+          </div>
+          <div class='btn__delete'>
+            <a  href = "#"> <i class='material-icons' style='color:orangered';>delete_forever</i></a>  
+          </div>
         </div>
       </div>
     </a>

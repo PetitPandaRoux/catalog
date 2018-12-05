@@ -4,11 +4,11 @@
   <div class="wrapper content__container">
 
     {% for machine in machines %}
-      <ul class="card">
+      <div class="card">
         <img class="card__picture" src="{{ url_for('static', filename='machine/'+machine.picture)}}">
-        <li class="card__primary_element" >Machine : {{machine.name}} </li>
-        <li class="admin">
-      </ul>
+        <div class="card__primary_element" >Machine : {{machine.name}} </div>
+        <div class="admin"></div>
+      </div>
     {% endfor %}
   </div>
 
