@@ -12,7 +12,7 @@ class Member(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     inscription_date = Column(String(250)) #DD/MM/YY
-    picture = Column(String(250))
+    picture = Column(String(250), default="blank_user.gif")
 
 class Machine(Base):
     __tablename__ = 'machine'
@@ -23,7 +23,7 @@ class Machine(Base):
     company = Column(String(250))
     description = Column(String(250))
     quantity = Column(Integer)
-    picture = Column(String(250))
+    picture = Column(String(250), default="blank_machine.gif")
     price = Column(Integer) # euros
 
 class Project(Base):
@@ -32,7 +32,7 @@ class Project(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
     description = Column(String(250))
-    picture = Column(String(250))
+    picture = Column(String(250), default="blank_project.gif")
     source = Column(String(850))
     end_date = Column(String(10)) #DD/MM/YY
     member_id = Column(Integer, ForeignKey('member.id'))

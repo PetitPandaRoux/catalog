@@ -34,6 +34,11 @@ a {
   height:100%;
 }
 
+.wrapper{
+  margin : 10px 30px;
+  padding:15px;
+}
+
 .title {
   background-color:#46494B;
   color:#E5E1D0;
@@ -73,14 +78,15 @@ a {
   justify-content: flex-start;
 }
 
-.member__container {
+.element__container {
   display:flex;
   flex-direction: row;
   border: solid #0C6062 2px;
-  width : 500px;
+  width : 600px;
   align-items: center;
-  margin:20px 40px;
+  margin:20px 30px;
 }
+
 
 .member__project-container {
   display:flex;
@@ -91,6 +97,7 @@ a {
 }
 
 .sidebar {
+  padding-top:10px;
   flex:1;
   background-color:#46494B;
   color:#D18454;
@@ -125,22 +132,21 @@ a {
 }
 
 .content{
-  padding:20px;
   flex:6;
 }
 
 .content h2 {
-  margin:20px;
+  margin:20px 0px;
   color:#4C9952;
 }
 
 .content p {
-  margin:10px;
+  margin:10px 0px;
 }
 
 .btn__wrapper {
   display:block;
-  text-align: center;
+  text-align: left;
   margin:30px;
 
 }
@@ -151,7 +157,7 @@ a {
   border: none;
   width:200px;
   height:30px;
-  background-color:#D18454;
+  background-color:#4C9952;
   color:#E5E1D0;
 }
 
@@ -161,12 +167,16 @@ a {
 
 .card {
   width:220px;
+  height:310px;
   text-align:center;
-  list-style: none;  
-  margin:10px 40px 30px 40px;
+  margin:10px 30px 30px 30px;
   border-radius:5px;
   background-color:#E5E1D0;
   padding-bottom:15px;
+}
+
+.card ul {
+  list-style: none; 
 }
 
 .card:hover{
@@ -190,4 +200,8 @@ a {
 .quotes {
   text-align: center;
   color:#D18454;
+}
+
+.color__green {
+  color:#4C9952;
 }

@@ -13,12 +13,14 @@
 <div class="content__container">
 
   {% for project in projects %}
-    <ul class="card">
-      <img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}">
-      <li class="card__primary_element" >Project : {{project.name}} </li>
-      <li>{{project.member_id}}</li>
-      <li class="admin">
-    </ul>
+    <a href="{{url_for('show_project', project_id = project.id)}}">
+      <ul class="card">
+      <img class="card__picture" src="{{ url_for('static', filename='project/'+project.picture)}}">
+        <li class="card__primary_element" >Project : {{project.name}} </li>
+        <li>{{project.member_id}}</li>
+        <li class="admin">
+      </ul>
+    </a>
   {% endfor %}
 </div>
 

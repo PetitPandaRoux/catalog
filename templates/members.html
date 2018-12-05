@@ -1,7 +1,8 @@
 {% extends "main.html" %}
 {% block content %}
 
-<div class="content__container">
+
+<div class="wrapper content__container">
   {% for member in members %}
     <ul class="card">
       <a href="{{url_for('show_member', member_id=member.id)}}">

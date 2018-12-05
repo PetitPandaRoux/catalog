@@ -12,12 +12,14 @@
   {% endif %}
 {% endwith %}
 
-<h2>Welcome to projects page of Le Petit Fablab de Paris</h2>
+<div class="wrapper">
+  <h2>Welcome to projects page of Le Petit Fablab de Paris</h2>
 
-<p>A Fablab come from Fabrication Laboratory, a place where people gather test, try, produce and share what they do</p>
+  <p>A Fablab come from Fabrication Laboratory, a place where people gather test, try, produce and share what they do</p>
 
-<p>You have a list of the last 5 projects, click on any on them to know more. </p>
-<p>For futher exploration we have organize our project by the tools they need to be fabricated (arduino, laser cutter, 3d printer etc...)</p>
+  <p>You have a list of the last 5 projects, click on any on them to know more. </p>
+  <p>For futher exploration we have organize our project by the tools they need to be fabricated (arduino, laser cutter, 3d printer etc...)</p>
+</div>
 
 <div class="btn__wrapper">
   <a href="{{url_for('new_project')}}">
@@ -29,10 +31,19 @@
 
 <div class="content__container">
   {% for project in projects %}
-    <ul class="card">
-    <img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}">
-      <li class="card__primary_element">Name : {{project.name}} </li>
-    </ul>
+    <a href="{{url_for('show_project', project_id = project.id)}}">
+      <div class="card">
+
+        <img class="card__picture" src="{{ url_for('static', filename='project/'+project.picture)}}">
+          <div class="card__primary_element">Name : {{project.name}} </div>
+        <div class='item__button bg--main-yellow'>
+          <a  class='color--black no-style' href = "#"> <i class='material-icons' style='color:black;'>edit</i></a>
+        </div>
+        <div class='item__button bg--main-orange'>
+          <a  class='color--white no-style' href = "#"> <i class='material-icons';>delete_forever</i></a>  
+        </div>
+      </div>
+    </a>
   {% endfor %}
 </div>
 

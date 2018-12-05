@@ -56,7 +56,11 @@ def show_projects():
     return render_template('projects.html', projects=projects)
 
 @app.route('/catalog/projects/<int:project_id>/ ')
-def show_project():
+def show_project(project_id):
+       session = DBSession()
+       project = session.query(Project).filter_by(id=project_id).one()
+       session.close()
+       return render_template('project.html', project=project)
 
 @app.route('/catalog/projects/', methods = ['GET','POST'])
 def new_project():
@@ -75,13 +79,15 @@ def show_projects_tag(tag_name):
     session.close()
     return render_template('projectsTag.html', projects=projects)
 
+'''
 # Show all information concerning one project
 @app.route('/catalog/projects/<tag_name>/<int:project_id>')
-def show_project(tag_name):
+def show_project_tag(tag_name):
     session = DBSession()
     projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_',' ')).all()
     session.close()
     return render_template('projects_tag.html', projects=projects)
+'''
 
 if __name__ == '__main__':
     app.secret_key = "super_secret_key"

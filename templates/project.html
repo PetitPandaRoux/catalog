@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="element__container ">
+  <img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}" width="200px" height="auto">
+  <div>
+    <p class="color__green">Name: {{project.name}}</p>
+    <p>Description : {{project.description}}</p>
+  </div>
+</div>
+
+<div class="btn__wrapper">
+  <a href="{{url_for('new_project')}}">
+    <button class="btn__new-project" id="new-project">
+      <span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>back to project
+    </button>
+  </a>
+</div>
+
+
+{% endblock %}
