@@ -1,6 +1,21 @@
 {% extends "main.html" %}
 {% block content %}
-<p>Name: {{member.name}}</p>
-<p>Inscription date : {{member.inscription_date}}</p>
+<div class="member__container">
+  <img src="{{ url_for('static', filename='avatar/'+member.picture)}}" width="200px" height="auto">
+  <div>
+    <p>Name: {{member.name}}</p>
+    <p>Inscription date : {{member.inscription_date}}</p>
+  </div>
+</div>
+
+<div class="member__project-container">
+  {% for project in projects %}
+    <ul class="card">
+    <img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}">
+      <li class="card__primary_element">Name : {{project.name}} </li>
+    </ul>
+  {% endfor %}
+</div>
+</div>
 
 {% endblock %}

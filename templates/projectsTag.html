@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+<div class="btn__wrapper">
+  <a href="{{url_for('new_project')}}">
+    <button class="btn__new-project" id="new-project">
+      <span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add project
+    </button>
+  </a>
+</div>
+
+<div class="content__container">
+
+  {% for project in projects %}
+    <ul class="card">
+      <img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}">
+      <li class="card__primary_element" >Project : {{project.name}} </li>
+      <li>{{project.member_id}}</li>
+      <li class="admin">
+    </ul>
+  {% endfor %}
+</div>
+
+<div class="btn__wrapper">
+  <a href="{{url_for('new_project')}}">
+    <button class="btn__new-project" id="new-project">
+      <span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add project
+    </button>
+  </a>
+</div>
+{% endblock %}

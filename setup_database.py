@@ -23,6 +23,7 @@ class Machine(Base):
     company = Column(String(250))
     description = Column(String(250))
     quantity = Column(Integer)
+    picture = Column(String(250))
     price = Column(Integer) # euros
 
 class Project(Base):

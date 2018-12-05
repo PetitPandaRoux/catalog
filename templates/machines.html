@@ -1,11 +1,15 @@
 {% extends "main.html" %}
 {% block content %}
 
-{% for machine in machines %}
-  <ul>
-    <li>Machine : {{machine}} </li>
+  <div class="content__container">
 
-  </ul>
-{% endfor %}
+    {% for machine in machines %}
+      <ul class="card">
+        <img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}">
+        <li class="card__primary_element" >Machine : {{machine.name}} </li>
+        <li class="admin">
+      </ul>
+    {% endfor %}
+  </div>
 
 {% endblock %}

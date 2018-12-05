@@ -35,7 +35,9 @@ def show_members():
 def show_member(member_id):
     session = DBSession()
     member = session.query(Member).filter_by(id=member_id).one()
-    return render_template('member.html', member = member)
+    projects = session.query(Project).filter(Project.member_id==member_id).all()
+    session.close()
+    return render_template('member.html', member=member, projects=projects)
 
 # Show main machines present inside the fablab
 @app.route('/catalog/machines')
@@ -53,13 +55,22 @@ def show_projects():
     session.close()
     return render_template('projects.html', projects=projects)
 
+@app.route('/catalog/projects/', methods = ['GET','POST'])
+def new_project():
+    if request.method == 'POST':
+        flash("Item has been created!")
+        return redirect(url_for('show_projects')) 
+# l'argument passee par get est ensuite passee au template
+    else :
+        return render_template('newProject.html')
+
 # Show all project using a certain catagory of tool
 @app.route('/catalog/projects/<tag_name>/')
 def show_projects_tag(tag_name):
     session = DBSession()
     projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_',' ')).all()
     session.close()
-    return render_template('projects_tag.html', projects=projects)
+    return render_template('projectsTag.html', projects=projects)
 
 # Show all information concerning one project
 @app.route('/catalog/projects/<tag_name>/<int:project_id>')

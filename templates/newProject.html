@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% block content %}
+  <div class='form__container'>
+    <h1>Add a new project</h1>
+    <div class='form__new'>
+      <form action="{{ url_for('new_project')}}" method = 'POST'>
+          <label for='name'>Choose a project name, description and picture: </label>
+          <input type = 'text' size = '30' name = 'name'><br><br>
+          <input type = 'submit' value = "Create">
+          <a href = "{{ url_for('show_projects') }}">Cancel and return to projects</a>
+      </form>    
+  </div>
+
+{% endblock %}
