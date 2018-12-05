@@ -31,7 +31,7 @@ def show_members():
     return render_template('members.html', members=members)
 
 # Show member with information and projects realized
-@app.route('/catalog/member/<member_id>')
+@app.route('/catalog/member/<int:member_id>')
 def show_member(member_id):
     session = DBSession()
     member = session.query(Member).filter_by(id=member_id).one()
@@ -48,12 +48,15 @@ def show_machines():
     return render_template('machines.html', machines=machines)
 
 # Show the latest 5 projects
-@app.route('/catalog/projects')
+@app.route('/catalog/projects/')
 def show_projects():
     session = DBSession()
     projects = session.query(Project).order_by(desc(Project.id)).limit(5)
     session.close()
     return render_template('projects.html', projects=projects)
+
+@app.route('/catalog/projects/<int:project_id>/ ')
+def show_project():
 
 @app.route('/catalog/projects/', methods = ['GET','POST'])
 def new_project():

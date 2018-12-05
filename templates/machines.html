@@ -5,7 +5,7 @@
 
     {% for machine in machines %}
       <ul class="card">
-        <img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}">
+        <img class="card__picture" src="{{ url_for('static', filename='machine/'+machine.picture)}}">
         <li class="card__primary_element" >Machine : {{machine.name}} </li>
         <li class="admin">
       </ul>
