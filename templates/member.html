@@ -10,12 +10,19 @@
 
 <div class="member__project-container">
   {% for project in projects %}
-    <div class="card">
-    <img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}">
-      <div class="card__primary_element">Name : {{project.name}} </div>
-    </div>
+    <a href="{{url_for('show_project', project_id = project.id)}}">
+      <div class="card">
+      <img class="card__picture" src="{{ url_for('static', filename='project/blank_project.gif')}}">
+        <div class="card__primary_element">Name : {{project.name}} </div>
+      </div>
+    </a>
   {% endfor %}
 </div>
+
+<div class="btn__wrapper">
+  <a href="{{ url_for('show_members') }}">
+    <button class="btn__new-project">Back to members</button>
+  </a>
 </div>
 
 {% endblock %}
