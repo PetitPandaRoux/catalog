@@ -1,15 +1,19 @@
 {% extends "main.html" %}
 {% block content %}
+
+
 <div class="element__container ">
   <img src="{{ url_for('static', filename='project/blank_project.gif') }}">
   <div>
     <p class="color__green">Name: {{ project.name }}</p>
     <p>Description : {{ project.description }}</p>
     <p>Creator : {{ member.name }}
-    <div>
-      <div class='btn__edit'>
-        <a href = "{{ url_for('edit_project', project_id = project.id )}}"> <i class='material-icons' style='color:#667278';>edit</i>Edit</a>
-      </div><br>
+    <div class="btn__container">
+     <div class="btn__wrapper">
+        <a href="{{ url_for('edit_project', project_id = project.id) }}">
+          <button class="btn__edit">Edit this project</button>
+        </a>
+      </div>
       <div class="btn__wrapper">
         <a href="{{ url_for('delete_project', project_id = project.id) }}">
           <button class="btn__confirm-delete">Delete this project</button>

@@ -20,9 +20,7 @@
 
 <div class="btn__wrapper">
   <a href="{{url_for('new_project')}}">
-    <button class="btn__new-project" id="new-project">
-      <span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add project
-    </button>
+    <button class="btn__new-project" id="new-project">Add project</button>
   </a>
 </div>
 
@@ -36,7 +34,7 @@
           </div>
 
         <div class="btn__container">
-          <div class='btn__edit'>
+          <div>
             <a href = "{{ url_for('edit_project', project_id = project.id )}}"> <i class='material-icons' style='color:#667278';>edit</i></a>
           </div>
           <div class='btn__delete'>

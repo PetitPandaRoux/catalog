@@ -187,6 +187,26 @@ a {
   color:#E5E1D0;
 }
 
+.btn__new-project:hover {
+  background-color:orangered;
+}
+
+
+.btn__edit {
+  margin-top:10px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  width:200px;
+  height:30px;
+  background-color:#667278;
+  color:#E5E1D0;
+}
+
+.btn__edit:hover {
+  background-color: #46494B;
+}
+
 .btn__confirm-delete {
   margin-top:10px;
   text-align: center;
@@ -202,9 +222,6 @@ a {
   background-color:orangered;
 }
 
-.btn__new-project:hover {
-  background-color:orangered;
-}
 
 .btn__back-projects {
   text-align: center;
