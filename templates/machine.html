@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="element__container ">
+  <img src="{{ url_for('static', filename='machine/'+machine.picture)}}">
+  <div>
+    <div class="color__green">Name: {{ machine.name }} {{ machine.machine_type }}</div>
+    <div>Description : {{ machine.description }}</div>
+    <div>Company : {{ machine.company }}</div>
+    <div>Price(€) : {{ machine.price }}</div>
+
+  </div>
+</div>
+
+<div class="btn__wrapper">
+  <a href="{{ url_for('show_machines') }}">
+    <button class="btn__new-project">Back to machines</button>
+  </a>
+</div>
+
+{% endblock %}

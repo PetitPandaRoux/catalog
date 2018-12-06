@@ -5,9 +5,10 @@
 
     {% for machine in machines %}
       <div class="card">
-        <img class="card__picture" src="{{ url_for('static', filename='machine/'+machine.picture)}}">
-        <div class="card__primary_element" >Machine : {{machine.name}} </div>
-        <div class="admin"></div>
+        <a href="{{url_for('show_machine', machine_id = machine.id)}}">
+          <img class="card__picture" src="{{ url_for('static', filename='machine/'+machine.picture)}}">
+          <div class="card__primary_element" >Machine : {{machine.name}} </div>
+        </a>
       </div>
     {% endfor %}
   </div>

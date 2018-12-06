@@ -278,6 +278,8 @@ a {
 .quotes {
   text-align: center;
   color:#D18454;
+  font-size:1.2rem;
+  margin-top:20px !important
 }
 
 .color__green {

@@ -64,6 +64,13 @@ def show_project(project_id):
     session.close()
     return render_template('project.html', project=project, member=member)
 
+@app.route('/catalog/machiness/<int:machine_id>/')
+def show_machine(machine_id):
+    session = DBSession()
+    machine = session.query(Machine).filter_by(id=machine_id).one()
+    session.close()
+    return render_template('machine.html', machine=machine)
+
 # Edit the selected project
 @app.route('/catalog/projects/<int:project_id>/edit', methods=['GET', 'POST'])
 def edit_project(project_id):
@@ -88,7 +95,8 @@ def edit_project(project_id):
         project.member = member
         session.add(project)
         session.commit()
-
+    
+    # You need to delete all tags previously put
         for tag in tags :
             session.delete(tag)
             session.commit()
