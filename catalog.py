@@ -55,21 +55,81 @@ def show_projects():
     session.close()
     return render_template('projects.html', projects=projects)
 
+# Show specific project information
 @app.route('/catalog/projects/<int:project_id>/')
 def show_project(project_id):
        session = DBSession()
        project = session.query(Project).filter_by(id=project_id).one()
+       member = session.query(Member).filter_by(id=project.member_id).one()
        session.close()
-       return render_template('project.html', project=project)
+       return render_template('project.html', project=project, member=member)
 
-@app.route('/catalog/projects/', methods = ['GET','POST'])
+# Edit the selected project
+@app.route('/catalog/projects/<int:project_id>/edit')
+def edit_project(project_id):
+       session = DBSession()
+       project = session.query(Project).filter_by(id=project_id).one()
+       session.close()
+       return render_template('editProject.html', project=project)
+
+# Delete the selected project
+@app.route('/catalog/projects/<int:project_id>/delete', methods=['GET', 'POST'])
+def delete_project(project_id):
+    session = DBSession()
+    project = session.query(Project).filter_by(id=project_id).one()
+    
+    # clean the tag table associated
+    tags = session.query(Tag).filter(Tag.project_id == project_id).all()
+
+    if request.method == 'POST':
+        session.delete(project)
+
+        for tag in tags :
+            session.delete(tag)
+
+        session.commit()
+        session.close()
+        flash("Project has been deleted!")
+        return redirect(url_for('show_projects'))
+    else : 
+        session.close()
+        return render_template('deleteProject.html', project=project, tags=tags)
+
+# Create a new project
+@app.route('/catalog/projects/new', methods = ['GET','POST'])
 def new_project():
     if request.method == 'POST':
-        flash("Item has been created!")
+        session = DBSession()
+        member_id = request.form.get('member')
+        member = session.query(Member).filter_by(id=member_id).one()
+        new_project = Project(name = request.form['name'], description = request.form['description'], member=member)
+        session.add(new_project)
+        session.commit()
+
+        tags = ['Arduino', '3D Printer', 'Laser Cutter', 'Portable Electric'] 
+        counter = 0  
+        for tag in tags:
+            if request.form.get(tag):
+                new_tag = Tag(tag_name=tag, project=new_project)
+                session.add(new_tag)
+                session.commit()
+                counter = 1
+        
+        # When no tools have been used for the project
+        if counter == 0:
+                no_tools = Tag(tag_name="No Tools", project=new_project)
+                session.add(no_tools)
+                session.commit()
+        
+        flash("Project has been created!")
         return redirect(url_for('show_projects')) 
-# l'argument passee par get est ensuite passee au template
+
     else :
-        return render_template('newProject.html')
+        session = DBSession()
+        members = session.query(Member).all()
+        session.close()
+        return render_template('newProject.html', members = members)
+    
 
 # Show all project using a certain catagory of tool
 @app.route('/catalog/projects/<tag_name>/')
@@ -78,16 +138,6 @@ def show_projects_tag(tag_name):
     projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_',' ')).all()
     session.close()
     return render_template('projectsTag.html', projects=projects, tag_name = tag_name)
-
-'''
-# Show all information concerning one project
-@app.route('/catalog/projects/<tag_name>/<int:project_id>')
-def show_project_tag(tag_name):
-    session = DBSession()
-    projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_',' ')).all()
-    session.close()
-    return render_template('projects_tag.html', projects=projects)
-'''
 
 if __name__ == '__main__':
     app.secret_key = "super_secret_key"

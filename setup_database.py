@@ -31,7 +31,7 @@ class Project(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
-    description = Column(String(250))
+    description = Column(String(450))
     picture = Column(String(250), default="blank_project.gif")
     source = Column(String(850))
     end_date = Column(String(10)) #DD/MM/YY
@@ -42,7 +42,7 @@ class Tag(Base):
     __tablename__ = 'tag'
 
     id = Column(Integer, primary_key=True)
-    tag_name = Column(String(100), nullable=False)
+    tag_name = Column(String(100), nullable=False) # we use 5 tags : Arduino, 3D Printer, Laser Cutter, Portable Electric, No Tags
     project_id = Column(Integer, ForeignKey('project.id'))
     project = relationship(Project)
 

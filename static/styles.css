@@ -82,9 +82,33 @@ a {
   display:flex;
   flex-direction: row;
   border: solid #0C6062 2px;
-  width : 600px;
+  width : 800px;
+  height:auto;
   align-items: center;
   margin:20px 30px;
+}
+
+.element__container > img {  
+  flex:1;
+}
+
+.element__container > div {  
+  flex:4;
+}
+
+
+.form__container {
+  display:flex;
+  width:50%;
+  flex-direction: column;
+  justify-content: space-around;
+  margin:50px 0;
+  border:solid 1px  #0C6062;
+  padding:20px;
+}
+
+.form__container label {
+  margin-top:20px;
 }
 
 .member__project-container {
@@ -143,11 +167,14 @@ a {
   margin:10px 0px;
 }
 
+.project-info {
+  margin:auto;
+}
+
 .btn__wrapper {
   display:block;
   text-align: left;
   margin:30px;
-
 }
 
 .btn__new-project {
@@ -160,7 +187,35 @@ a {
   color:#E5E1D0;
 }
 
+.btn__confirm-delete {
+  margin-top:10px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  width:200px;
+  height:30px;
+  background-color:#D18454;
+  color:#E5E1D0;
+}
+
+.btn__confirm-delete:hover {
+  background-color:orangered;
+}
+
 .btn__new-project:hover {
+  background-color:orangered;
+}
+
+.btn__back-projects {
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  width:200px;
+  height:30px;
+  background-color:#D18454;
+  color:#E5E1D0;
+}
+.btn__back-projects:hover {
   background-color:orangered;
 }
 

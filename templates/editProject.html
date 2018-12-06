@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+{% block content %}
+  <div class='form__container'>
+    <h1>Add a new project</h1>
+    <div class='form__new'>
+      <form action="{{ url_for('new_project')}}" method = 'POST'>
+          <label for='name'>Choose a project name, description and picture: </label>
+          <input type = 'text' size = '30' name = 'name'><br><br>
+          <input type = 'submit' value = "Create">
+          <a href = "{{ url_for('show_projects') }}">Cancel and return to projects</a>
+      </form>    
+  </div>
+
+ <div class='form__container'>
+      <h1>Edit Menu Items</h1>
+      <p>You are modifiying {{project.name}} for the restaurant {{restaurant.name}}</p><br>
+      <form  action="{{ url_for('edit_menu_item', project_id = project_id }}" method = 'POST'>
+        <label for='name'>Name: </label><br>
+        <input type = 'text' size = '30' name = 'name' value = "{{item.name}}"><br>
+        <label>Course type:</label>
+        <select name = 'course'>
+            <option value="Appetizer">Appetizer</option>
+            <option value="Entree">Entree</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Beverage">Beverage</option>
+        </select> <br>
+        <label for'description'>Description</label><br>
+        <input type = 'text' size = '30' name = 'description' value = "{{item.description}}"><br>
+        <label for='price'>Price</label><br>
+        <input type = 'text' size = '30' name = 'price' value = "{{item.price}}"><br><br>
+        <input type = 'submit' value = "Edit">
+        <a href = "{{ url_for('show_menu', restaurant_id = restaurant_id) }}">Cancel</a>
+      </form>
+
+{% endblock %}
