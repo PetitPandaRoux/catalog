@@ -3,15 +3,22 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 
 from flask_dance.contrib.github import make_github_blueprint, github
+from flask_dance.consumer.backend.sqla import SQLAlchemyBackend
+from flask_dance.consumer import oauth_authorized
 
+from flask_sqlalchemy import SQLAlchemy 
 from sqlalchemy import create_engine, desc, asc
 from sqlalchemy.orm import sessionmaker
-from setup_database import Base, Member, Machine, Project, Tag
+from sqlalchemy.orm.exc import NoResultFound
+from setup_database import Base, Oauth, Member, Machine, Project, Tag
+
+from flask_login import UserMixin, LoginManager, login_required, login_user,logout_user, current_user
+
 import os 
 
 app = Flask(__name__)
 
-github_blueprint= make_github_blueprint(client_id = '968903ce2aaebd6dd332' , client_secret='4b98a975586df65eb8ae16df9bd3954e169644be')
+github_blueprint = make_github_blueprint(client_id = '968903ce2aaebd6dd332' , client_secret = '4b98a975586df65eb8ae16df9bd3954e169644be')
 app.register_blueprint(github_blueprint, url_prefix = '/github_login')
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -21,54 +28,13 @@ engine = create_engine('sqlite:///lepetitfablabdeparis.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 
-@app.route('/catalog/projects/JSON')
-def projects_JSON():
-    session = DBSession()
-    projects = session.query(Project).all()
-    session.close()
-    return jsonify(Project=[project.serialize for project in projects])
+github_blueprint.backend = SQLAlchemyBackend(Oauth, DBSession, user=current_user)
 
-@app.route('/catalog/project/<int:project_id>/JSON')
-def project_JSON(project_id):
-    session = DBSession()
-    project = session.query(Project).filter_by(id=project_id).one()
-    session.close()
-    return jsonify(Project=[project.serialize])
-
-@app.route('/catalog/projects/<tag_name>/JSON')
-def projects_tag_JSON(tag_name):
-    session = DBSession()
-    projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_',' ')).order_by(desc(Project.id)).all()
-    session.close()
-    return jsonify(Project=[project.serialize for project in projects])
-
-@app.route('/catalog/machines/JSON/')
-def machines_JSON():
-    session = DBSession()
-    machines = session.query(Machine).all()
-    session.close()
-    return jsonify(Machine=[machine.serialize for machine in machines])
-
-@app.route('/catalog/machine/<int:machine_id>/JSON/')
-def machine_JSON(machine_id):
-    session = DBSession()
-    machine = session.query(Machine).filter_by(id=machine_id).one()
-    session.close()
-    return jsonify(Machine=[machine.serialize])
-
-@app.route('/catalog/members/JSON')
-def members_JSON():
-    session = DBSession()
-    members = session.query(Member).all()
-    session.close()
-    return jsonify(Member=[member.serialize for member in members])
-
-@app.route('/catalog/member/<int:member_id>/JSON')
-def member_JSON(member_id):
-    session = DBSession()
-    member = session.query(Member).filter_by(id=member_id).one()
-    session.close()
-    return jsonify(Member=[member.serialize])
+'''
+@login_manager.user_loader
+def load_user(user_id):
+    return Member.query.get(int(user_id))
+'''
 
 @app.route('/')
 @app.route('/catalog/')
@@ -79,16 +45,25 @@ def show_home():
 def show_login():
     if not github.authorized :
         return redirect (url_for('github.login'))
+    
+
     account_info = github.get('/user')
 
     if account_info.ok:
         account_info_json = account_info.json()
-        message = account_info_json['login']
-        return render_template ('account.html', account = account_info_json)
-    return '<h1>Request failed</h1>'
-'''
-TODO : Avoir une session [], enfermer dans la session les informations d'utilisateurs, si l'utilisateur est ou non dans la base sinon l'inscrire, vider la session lors du logout.
+        return render_template('account.html', account=account_info_json)
 
+    return '<h1>Problem encountered, request failed</h1>'
+
+'''
+@oauth_authorized.connect_via(github_blueprint)
+def github_logged_in(blueprint, token):
+    
+    account_info = blueprint.session.get('user')
+
+    if account_info.ok:
+        account_info_json = account_info.json()
+        username = account_info_json['login']
 '''
 
 # Show all members, their avatars and their names
@@ -98,6 +73,19 @@ def show_members():
     members = session.query(Member).all()
     session.close()
     return render_template('members.html', members=members)
+
+'''
+@app.route('/catalog/protected')
+@login_required
+def protected():
+    return "Welcome"
+
+@app.route('/catalog/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for(show_home))
+'''
 
 # Show member with information and projects realized
 @app.route('/catalog/member/<int:member_id>')

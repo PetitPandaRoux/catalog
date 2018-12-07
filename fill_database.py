@@ -25,15 +25,15 @@ member4 = Member(name="Adel", email="adel@gmail.com", inscription_date="01/10/17
 session.add(member4)
 session.commit()
 
-machine1 = Machine(name = "60W CO2 laser cutter", machine_type = "Laser cutter", quantity = 1, company = "Unknow", price = 5000, description = "Laser Cut of 60W from China. It can cut to 8mm plywood", picture = "laser.jpg")
+machine1 = Machine(name = "60W CO2 laser cutter", machine_type = "Laser cutter", company = "Unknow", price = 5000, description = "Laser Cut of 60W from China. It can cut to 8mm plywood", picture = "laser.jpg")
 session.add(machine1)
 session.commit()
 
-machine2 = Machine(name = "Zortrax M500", machine_type = "3D printer", quantity = 1, company = "Zortrax", price = 2000, description = "Proprietary 3D printing machine using ABS", picture = "zortrax.jpg")
+machine2 = Machine(name = "Zortrax M500", machine_type = "3D printer", company = "Zortrax", price = 2000, description = "Proprietary 3D printing machine using ABS", picture = "zortrax.jpg")
 session.add(machine2)
 session.commit()
 
-machine3 = Machine(name="Ultimaker2", machine_type="3D printer", quantity=1, company="Ultimaker", price=2000, description="", picture = "ultimaker.jpg")
+machine3 = Machine(name = "Ultimaker2", machine_type = "3D printer",company = "Ultimaker", price = 2000, description = "", picture = "ultimaker.jpg")
 session.add(machine3)
 session.commit()
 

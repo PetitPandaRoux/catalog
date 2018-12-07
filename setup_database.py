@@ -3,6 +3,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 
+from flask_dance.consumer.backend.sqla import OAuthConsumerMixin
+
+
 Base = declarative_base()
 
 class Member(Base):
@@ -14,6 +17,20 @@ class Member(Base):
     inscription_date = Column(String(250)) #DD/MM/YY
     picture = Column(String(250), default="blank_user.gif")
 
+    @property
+    def serialize(self):
+        #Returns object data in easily serializable format
+        return{
+            'name' : self.name,
+            'email' : self.email, 
+            'id' : self.id,
+            'inscription_date':self.inscription_date,    
+        }
+
+class Oauth(OAuthConsumerMixin):
+    user_id = Column(Integer, ForeignKey(Member.id))
+    user = relationship(Member)
+
 class Machine(Base):
     __tablename__ = 'machine'
 
@@ -22,9 +39,20 @@ class Machine(Base):
     machine_type = Column(String(250), nullable=False)
     company = Column(String(250))
     description = Column(String(250))
-    quantity = Column(Integer)
     picture = Column(String(250), default="blank_machine.gif")
     price = Column(Integer) # euros
+
+    @property
+    def serialize(self):
+        #Returns object data in easily serializable format
+        return {
+            'name' : self.name,
+            'machine_type' : self.machine_type, 
+            'id' : self.id,
+            'description':self.description,
+            'price':self.price,
+            'company':self.company,
+        }
 
 class Project(Base):
     __tablename__ = 'project'
@@ -37,6 +65,17 @@ class Project(Base):
     end_date = Column(String(10)) #DD/MM/YY
     member_id = Column(Integer, ForeignKey('member.id'))
     member = relationship(Member)
+
+    @property
+    def serialize(self):
+        return {
+            'name': self.name,
+            'id':self.id,
+            'description':self.description,
+            'source':self.source,
+            'end_date':self.end_date,
+            'member_id': self.member_id,
+        }
 
 class Tag(Base):
     __tablename__ = 'tag'
