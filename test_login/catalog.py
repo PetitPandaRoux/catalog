@@ -15,8 +15,7 @@ github_blueprint = make_github_blueprint(
     client_id='968903ce2aaebd6dd332',
     client_secret='4b98a975586df65eb8ae16df9bd3954e169644be')
 
-# We use flask-dance to facilitate token management
-app.register_blueprint(github_blueprint, url_prefix='/login')
+app.register_blueprint(github_blueprint, url_prefix='/github_login')
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -298,35 +297,6 @@ def show_projects_tag(tag_name):
         'projectsTag.html',
         projects=projects,
         tag_name=tag_name)
-
-# Here we create helper function
-def createUser(login_session):
-    session = DBSession()
-    newUser = Member(name=login_session['username'],
-                   email=login_session['email'],
-                   picture=login_session['picture'])
-    session.add(newUser)
-    session.commit()
-    session.close()
-    member = session.query(Member).filter_by(email=login_session['email']).one()
-    return member.id
-
-
-# To get user Information
-def getUserInfo(member_id):
-    session = DBSession()
-    member = session.query(Member).filter_by(id=member_id).one()
-    session.close()
-    return user
-
-
-# To get users information
-def getUserID(email):
-    try:
-        member = session.query(Member).filter_by(email=email).one()
-        return meber.id
-    except:
-        return None
 
 
 if __name__ == '__main__':
