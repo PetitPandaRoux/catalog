@@ -2,6 +2,8 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+from flask_login import LoginManager, UserMixin
+
 
 from flask_dance.consumer.backend.sqla import OAuthConsumerMixin
 
@@ -9,7 +11,7 @@ from flask_dance.consumer.backend.sqla import OAuthConsumerMixin
 Base = declarative_base()
 
 
-class Member(Base):
+class Member(Base, UserMixin):
     __tablename__ = 'member'
 
     id = Column(Integer, primary_key=True)
@@ -86,8 +88,6 @@ class Tag(Base):
     __tablename__ = 'tag'
 
     id = Column(Integer, primary_key=True)
-    # 5 tag_name : Arduino, 3D Printer, Laser Cutter,
-    # Portable Electric, No Tags
     tag_name = Column(String(100), nullable=False)
     project_id = Column(Integer, ForeignKey('project.id'))
     project = relationship(Project)

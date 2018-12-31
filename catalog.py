@@ -1,23 +1,33 @@
 #!/usr/bin/env python2
 
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify 
+
+from flask import session as login_session
+
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 from flask_dance.contrib.github import make_github_blueprint, github
 
 from sqlalchemy import create_engine, desc, asc
+from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm import sessionmaker
 from setup_database import Base, Member, Machine, Project, Tag
 import os
 
 app = Flask(__name__)
 
+# Use Flask-login to facilitate session
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'show_login'
+
+# We use flask-dance to facilitate oauth management
 github_blueprint = make_github_blueprint(
     client_id='968903ce2aaebd6dd332',
     client_secret='4b98a975586df65eb8ae16df9bd3954e169644be')
+app.register_blueprint(github_blueprint, url_prefix='/catalog/login_github/')
 
-# We use flask-dance to facilitate token management
-app.register_blueprint(github_blueprint, url_prefix='/login')
-
+# Allow http connection, to remove in production
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # DataBase Creation
@@ -25,7 +35,14 @@ engine = create_engine('sqlite:///lepetitfablabdeparis.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 
+@login_manager.user_loader
+def load_user(user_id):
+    session = DBSession()
+    member_id = session.query(Member).get(int(user_id))
+    session.close()
+    return member_id
 
+# ALL API ENDPOINTS
 @app.route('/catalog/projects/JSON')
 def projects_JSON():
     session = DBSession()
@@ -81,33 +98,73 @@ def member_JSON(member_id):
     session.close()
     return jsonify(Member=[member.serialize])
 
-
+# MAIN CODE
 @app.route('/')
 @app.route('/catalog/')
 def show_home():
     return render_template('catalog.html')
 
 
-@app.route('/catalog/login')
+@app.route('/catalog/login_page', methods=['GET', 'POST'])
 def show_login():
+    if request.method == 'POST':
+        member_name = request.form['username']
+
+        try :
+            session = DBSession()
+            member = session.query(Member).filter_by(name=member_name).one()
+            login_user(member)
+            session.close()
+            return redirect(url_for('show_home'))
+        except NoResultFound:
+            flash("Member is not register, please log again!")
+            return redirect(url_for('show_login'))
+
+    # If everything fail we return to login.html
+    else :
+        return render_template('login.html')
+
+
+# Log in using github Oauth
+@app.route('/catalog/login_github/', methods=['GET', 'POST'])
+def github_login():
+
+    # If user has not given permission    
     if not github.authorized:
         return redirect(url_for('github.login'))
+
+    # We get user info
     account_info = github.get('/user')
 
     if account_info.ok:
         account_info_json = account_info.json()
-        message = account_info_json['login']
-        return render_template('account.html', account=account_info_json)
-    return '<h1>Request failed</h1>'
 
+        # We check with email if user is already in DB
+        try :
+            session = DBSession()
+            member = session.query(Member).filter_by(email=account_info_json['email']).one()
+            login_user(member)
+            session.close()
+            return redirect(url_for('show_home'))
 
-'''
-TODO :
-Avoir une session [],
-enfermer dans la session les informations d'utilisateurs,
-si l'utilisateur est ou non dans la base sinon l'inscrire,
-vider la session lors du logout.
-'''
+        # If not we create member with data given from github
+        except NoResultFound:
+            session = DBSession()
+            new_member = Member(name=account_info_json['name'],email=account_info_json['email'])
+            session.add(new_member)
+            session.commit()
+            member = session.query(Member).filter_by(email=account_info_json['email']).one()
+            login_user(member)
+            session.close()
+            flash("You were not a member, we just create your account")
+            return redirect(url_for('show_home'))
+
+# Log out page
+@app.route('/catalog/logout_page')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('show_home'))
 
 
 # Show all members, their avatars and their names
@@ -167,6 +224,7 @@ def show_machine(machine_id):
 
 # Edit the selected project
 @app.route('/catalog/projects/<int:project_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_project(project_id):
     session = DBSession()
     project = session.query(Project).filter_by(id=project_id).one()
@@ -223,6 +281,7 @@ def edit_project(project_id):
 
 # Delete the selected project
 @app.route('/catalog/projects/<int:project_id>/delete', methods=['GET', 'POST'])
+@login_required
 def delete_project(project_id):
     session = DBSession()
     project = session.query(Project).filter_by(id=project_id).one()
@@ -251,6 +310,7 @@ def delete_project(project_id):
 
 # Create a new project
 @app.route('/catalog/projects/new', methods=['GET', 'POST'])
+@login_required
 def new_project():
     if request.method == 'POST':
         session = DBSession()
@@ -298,35 +358,6 @@ def show_projects_tag(tag_name):
         'projectsTag.html',
         projects=projects,
         tag_name=tag_name)
-
-# Here we create helper function
-def createUser(login_session):
-    session = DBSession()
-    newUser = Member(name=login_session['username'],
-                   email=login_session['email'],
-                   picture=login_session['picture'])
-    session.add(newUser)
-    session.commit()
-    session.close()
-    member = session.query(Member).filter_by(email=login_session['email']).one()
-    return member.id
-
-
-# To get user Information
-def getUserInfo(member_id):
-    session = DBSession()
-    member = session.query(Member).filter_by(id=member_id).one()
-    session.close()
-    return user
-
-
-# To get users information
-def getUserID(email):
-    try:
-        member = session.query(Member).filter_by(email=email).one()
-        return meber.id
-    except:
-        return None
 
 
 if __name__ == '__main__':

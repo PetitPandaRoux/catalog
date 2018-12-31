@@ -17,7 +17,7 @@
         <label >What tools did you used for the project: </label><br>
         <div class="wrapper">
           {% for tag in all_tags %}
-            {% if tag in tag_names%}
+            {% if tag in tag_names %}
             <input type="checkbox" name="{{ tag}}" value="{{ tag }}" checked>{{tag}}
             {% else %}
             <input type="checkbox" name="{{ tag}}" value="{{ tag }}"> {{tag}}

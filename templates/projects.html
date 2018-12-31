@@ -18,11 +18,13 @@
   <p>For futher exploration we have organize our project by the tools they need to be fabricated (arduino, laser cutter, 3d printer etc...)</p>
 </div>
 
-<div class="btn__wrapper">
-  <a href="{{url_for('new_project')}}">
-    <button class="btn__new-project" id="new-project">Add project</button>
-  </a>
-</div>
+{% if current_user.is_authenticated %}
+  <div class="btn__wrapper">
+    <a href="{{url_for('new_project')}}">
+      <button class="btn__new-project" id="new-project">Add project</button>
+    </a>
+  </div>
+{% endif %}
 
 <div class="content__container">
   {% for project in projects %}
@@ -46,11 +48,12 @@
   {% endfor %}
 </div>
 
-<div class="btn__wrapper">
-  <a href="{{url_for('new_project')}}">
-    <button class="btn__new-project" id="new-project">Add project</button>
-  </a>
-</div>
-
+{% if current_user.is_authenticated %}
+  <div class="btn__wrapper">
+    <a href="{{url_for('new_project')}}">
+      <button class="btn__new-project" id="new-project">Add project</button>
+    </a>
+  </div>
+{% endif %}
 
 {% endblock %}

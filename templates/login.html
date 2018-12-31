@@ -1,0 +1,34 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="wrapper">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="flash__message">{{message}}</div>
+        {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <h1> Please Login </h1>
+  <div  class="content__container">
+    <div class="element__flex">
+      <form class='form__container' method='POST'>
+        <div class="wrapper">
+          <label for='username'>Please enter your username : </label><br>
+          <input type="text" name="username"><br><br>
+          <input class="btn__new-project" type = 'submit' value = "Sign In">
+        </div>
+      </form>
+    </div>
+    <div class="element__flex">
+      <div class='form__container'>
+        <div class="btn__wrapper">
+          <a href="{{url_for('github_login')}}">
+            <button class="btn__new-project" id="new-project">Connect to github</button>
+          </a>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
