@@ -39,6 +39,8 @@ To start the project :
 You can then check with the browser: http://127.0.0.1:8800/
 You shoul have something that look like :
 
+![image](https://drive.google.com/uc?export=view&id=1iZ685bnapzS5nbkpilUY0FzsnPQqNNau
+)
 
 ## WEB APP :
 
