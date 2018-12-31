@@ -31,11 +31,6 @@ class Member(Base, UserMixin):
         }
 
 
-class Oauth(OAuthConsumerMixin):
-    user_id = Column(Integer, ForeignKey(Member.id))
-    user = relationship(Member)
-
-
 class Machine(Base):
     __tablename__ = 'machine'
 
@@ -44,7 +39,7 @@ class Machine(Base):
     machine_type = Column(String(250), nullable=False)
     company = Column(String(250))
     description = Column(String(250))
-    picture = Column(String(250), default="blank_machine.gif")
+    picture = Column(String(250), default="blank_machine.png")
     price = Column(Integer)  # euros
 
     @property
@@ -66,7 +61,7 @@ class Project(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250))
     description = Column(String(450))
-    picture = Column(String(250), default="blank_project.gif")
+    picture = Column(String(250), default="blank_project.png")
     source = Column(String(850))
     end_date = Column(String(10))  # DD/MM/YY
     member_id = Column(Integer, ForeignKey('member.id'))
