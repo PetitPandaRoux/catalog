@@ -1,2 +1,3 @@
 .gitignore
 lepetitfablabdeparis.db
+*.pyc
