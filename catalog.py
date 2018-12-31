@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify 
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 
 from flask import session as login_session
 
@@ -35,12 +35,14 @@ engine = create_engine('sqlite:///lepetitfablabdeparis.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 
+
 @login_manager.user_loader
 def load_user(user_id):
     session = DBSession()
     member_id = session.query(Member).get(int(user_id))
     session.close()
     return member_id
+
 
 # ALL API ENDPOINTS
 @app.route('/catalog/projects/JSON')
@@ -62,7 +64,9 @@ def project_JSON(project_id):
 @app.route('/catalog/projects/<tag_name>/JSON')
 def projects_tag_JSON(tag_name):
     session = DBSession()
-    projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_', ' ')).order_by(desc(Project.id)).all()
+    projects = session.query(Project).join(Tag).filter(
+        Tag.tag_name == tag_name.replace('_', ' ')).order_by(
+            desc(Project.id)).all()
     session.close()
     return jsonify(Project=[project.serialize for project in projects])
 
@@ -98,6 +102,7 @@ def member_JSON(member_id):
     session.close()
     return jsonify(Member=[member.serialize])
 
+
 # MAIN CODE
 @app.route('/')
 @app.route('/catalog/')
@@ -110,7 +115,7 @@ def show_login():
     if request.method == 'POST':
         member_name = request.form['username']
 
-        try :
+        try:
             session = DBSession()
             member = session.query(Member).filter_by(name=member_name).one()
             login_user(member)
@@ -121,7 +126,7 @@ def show_login():
             return redirect(url_for('show_login'))
 
     # If everything fail we return to login.html
-    else :
+    else:
         return render_template('login.html')
 
 
@@ -129,7 +134,7 @@ def show_login():
 @app.route('/catalog/login_github/', methods=['GET', 'POST'])
 def github_login():
 
-    # If user has not given permission    
+    # If user has not given permission
     if not github.authorized:
         return redirect(url_for('github.login'))
 
@@ -140,9 +145,10 @@ def github_login():
         account_info_json = account_info.json()
 
         # We check with email if user is already in DB
-        try :
+        try:
             session = DBSession()
-            member = session.query(Member).filter_by(email=account_info_json['email']).one()
+            member = session.query(Member).filter_by(
+                email=account_info_json['email']).one()
             login_user(member)
             session.close()
             return redirect(url_for('show_home'))
@@ -150,14 +156,18 @@ def github_login():
         # If not we create member with data given from github
         except NoResultFound:
             session = DBSession()
-            new_member = Member(name=account_info_json['name'],email=account_info_json['email'])
+            new_member = Member(
+                name=account_info_json['name'],
+                email=account_info_json['email'])
             session.add(new_member)
             session.commit()
-            member = session.query(Member).filter_by(email=account_info_json['email']).one()
+            member = session.query(Member).filter_by(
+                email=account_info_json['email']).one()
             login_user(member)
             session.close()
             flash("You were not a member, we just create your account")
             return redirect(url_for('show_home'))
+
 
 # Log out page
 @app.route('/catalog/logout_page')
@@ -180,8 +190,10 @@ def show_members():
 @app.route('/catalog/member/<int:member_id>')
 def show_member(member_id):
     session = DBSession()
-    member = session.query(Member).filter_by(id=member_id).one()
-    projects = session.query(Project).filter(Project.member_id == member_id).all()
+    member = session.query(Member).filter_by(
+        id=member_id).one()
+    projects = session.query(Project).filter(
+        Project.member_id == member_id).all()
     session.close()
     return render_template('member.html', member=member, projects=projects)
 
@@ -346,13 +358,15 @@ def new_project():
         members = session.query(Member).all()
         session.close()
         return render_template('newProject.html', members=members)
-        
-        
+
+
 # Show all project using a certain catagory of tool
 @app.route('/catalog/projects/<tag_name>/')
 def show_projects_tag(tag_name):
     session = DBSession()
-    projects = session.query(Project).join(Tag).filter(Tag.tag_name == tag_name.replace('_', ' ')).order_by(desc(Project.id)).all()
+    projects = session.query(Project).join(Tag).filter(
+        Tag.tag_name == tag_name.replace('_', ' ')).order_by(
+            desc(Project.id)).all()
     session.close()
     return render_template(
         'projectsTag.html',
