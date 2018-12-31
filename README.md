@@ -8,7 +8,7 @@ The project emulate the need of a fablab, an organisation with members, machines
 ### Installation
 
 To install the project you'll need :
-* [sqlite(https://sqlite.org/download.html)
+* [sqlite](https://sqlite.org/download.html)
 * [python2.7](https://www.python.org/downloads/) 
 * [virtualenv](https://virtualenv.pypa.io/en/latest/)
 
