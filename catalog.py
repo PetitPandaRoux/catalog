@@ -252,34 +252,40 @@ def edit_project(project_id):
     all_tags = ['Arduino', '3D Printer', 'Laser Cutter', 'Portable Electric']
 
     if request.method == 'POST':
-        project.name = request.form['name']
-        project.description = request.form['description']
-        member_id = request.form.get('member')
-        member = session.query(Member).filter_by(id=member_id).one()
-        project.member = member
-        session.add(project)
-        session.commit()
 
-    # You need to delete all tags previously put
-        for tag in tags:
-            session.delete(tag)
+        # We check if the current user is the owner of the project
+        if int(current_user.get_id())==int(project.member_id):
+            project.name = request.form['name']
+            project.description = request.form['description']
+            member_id = request.form.get('member')
+            member = session.query(Member).filter_by(id=member_id).one()
+            project.member = member
+            session.add(project)
             session.commit()
 
-        counter = False
-        for update_tag in all_tags:
-            if request.form.get(update_tag):
-                new_tag = Tag(tag_name=update_tag, project=project)
-                session.add(new_tag)
-                session.commit()
-                counter = True
-
-        # When no tools have been used for the project
-        if counter is False:
-                no_tools = Tag(tag_name="No Tools", project=project)
-                session.add(no_tools)
+        # You need to delete all tags previously put
+            for tag in tags:
+                session.delete(tag)
                 session.commit()
 
-        flash(project.name + " has been updated!")
+            counter = False
+            for update_tag in all_tags:
+                if request.form.get(update_tag):
+                    new_tag = Tag(tag_name=update_tag, project=project)
+                    session.add(new_tag)
+                    session.commit()
+                    counter = True
+
+            # When no tools have been used for the project
+            if counter is False:
+                    no_tools = Tag(tag_name="No Tools", project=project)
+                    session.add(no_tools)
+                    session.commit()
+
+            flash(project.name + " has been updated!" )
+            return redirect(url_for('show_projects'))
+
+        flash("You are not the owner of the project: ")
         return redirect(url_for('show_projects'))
 
     else:
@@ -302,16 +308,21 @@ def delete_project(project_id):
     tags = session.query(Tag).filter(Tag.project_id == project_id).all()
 
     if request.method == 'POST':
-        session.delete(project)
-        session.commit()
-
-        for tag in tags:
-            session.delete(tag)
+        if int(current_user.get_id())==int(project.member_id):
+            session.delete(project)
             session.commit()
 
-        session.close()
-        flash("Project has been deleted!")
-        return redirect(url_for('show_projects'))
+            for tag in tags:
+                session.delete(tag)
+                session.commit()
+
+            session.close()
+            flash("Project has been deleted!")
+            return redirect(url_for('show_projects'))
+        
+        else :
+            flash('You are not the owner of the project !')
+            return redirect(url_for('show_projects'))
     else:
         session.close()
         return render_template(

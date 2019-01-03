@@ -1,13 +1,15 @@
 {% extends "main.html" %}
 {% block content %}
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      <div><strong>{{message}}</strong><div>
-      {% endfor %}
-  {% endif %}
-{% endwith %}
+<div class="wrapper">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="flash__message">{{message}}</div>
+        {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
 
 <div class="wrapper">
   <h2>Welcome to project's page of Le Petit Fablab de Paris</h2>
