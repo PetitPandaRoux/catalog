@@ -1,10 +1,23 @@
 #!/usr/bin/env python2
 
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    flash,
+    jsonify)
 
 from flask import session as login_session
 
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_login import (
+    LoginManager,
+    UserMixin,
+    login_user,
+    login_required,
+    logout_user,
+    current_user)
 
 from flask_dance.contrib.github import make_github_blueprint, github
 
@@ -254,7 +267,7 @@ def edit_project(project_id):
     if request.method == 'POST':
 
         # We check if the current user is the owner of the project
-        if int(current_user.get_id())==int(project.member_id):
+        if int(current_user.get_id()) == int(project.member_id):
             project.name = request.form['name']
             project.description = request.form['description']
             member_id = request.form.get('member')
@@ -282,7 +295,7 @@ def edit_project(project_id):
                     session.add(no_tools)
                     session.commit()
 
-            flash(project.name + " has been updated!" )
+            flash(project.name + " has been updated!")
             return redirect(url_for('show_projects'))
 
         flash("You are not the owner of the project: ")
@@ -298,7 +311,9 @@ def edit_project(project_id):
 
 
 # Delete the selected project
-@app.route('/catalog/projects/<int:project_id>/delete', methods=['GET', 'POST'])
+@app.route(
+    '/catalog/projects/<int:project_id>/delete',
+    methods=['GET', 'POST'])
 @login_required
 def delete_project(project_id):
     session = DBSession()
@@ -308,7 +323,8 @@ def delete_project(project_id):
     tags = session.query(Tag).filter(Tag.project_id == project_id).all()
 
     if request.method == 'POST':
-        if int(current_user.get_id())==int(project.member_id):
+        # Checking if curren_user logged in is the creator of project
+        if int(current_user.get_id()) == int(project.member_id):
             session.delete(project)
             session.commit()
 
@@ -319,8 +335,8 @@ def delete_project(project_id):
             session.close()
             flash("Project has been deleted!")
             return redirect(url_for('show_projects'))
-        
-        else :
+
+        else:
             flash('You are not the owner of the project !')
             return redirect(url_for('show_projects'))
     else:
