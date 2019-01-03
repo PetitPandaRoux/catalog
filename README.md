@@ -64,5 +64,4 @@ http://127.0.0.1:8800/catalog/machine/<id>/JSON
 ## FURTHER DEVELOPMENT
 - Generate date of today when register using Oauth
 - Create a way to upload picture file to server and database
-- Only allow project creator to delete or modify the project
 - Create a password management for each user
