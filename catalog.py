@@ -232,11 +232,15 @@ def show_projects():
 # Show specific project information
 @app.route('/catalog/projects/<int:project_id>/')
 def show_project(project_id):
-    session = DBSession()
-    project = session.query(Project).filter_by(id=project_id).one()
-    member = session.query(Member).filter_by(id=project.member_id).one()
-    session.close()
-    return render_template('project.html', project=project, member=member)
+    try:
+        session = DBSession()
+        project = session.query(Project).filter_by(id=project_id).one()
+        member = session.query(Member).filter_by(id=project.member_id).one()
+        session.close()
+        return render_template('project.html', project=project, member=member)
+    except NoResultFound:
+        flash("Project not found in the database")
+        return redirect(url_for('show_projects'))
 
 
 @app.route('/catalog/machiness/<int:machine_id>/')
