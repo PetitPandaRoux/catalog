@@ -11,17 +11,20 @@
     <p>Sources to make the project : <a href='{{project.source}}'>{{project.source}}</a></p>
     <div class="btn__container">
     {% if current_user.is_authenticated %}
-     <div class="btn__wrapper">
-        <a href="{{ url_for('edit_project', project_id = project.id) }}">
-          <button class="btn__edit">Edit this project</button>
-        </a>
-      </div>
-  
-      <div class="btn__wrapper">
-        <a href="{{ url_for('delete_project', project_id = project.id) }}">
-          <button class="btn__confirm-delete">Delete this project</button>
-        </a>
-      </div>
+      {% set user_id = current_user.get_id() | int %}
+      {% if user_id == project.member_id %}
+        <div class="btn__wrapper">
+          <a href="{{ url_for('edit_project', project_id = project.id) }}">
+            <button class="btn__edit">Edit this project</button>
+          </a>
+        </div>
+      
+        <div class="btn__wrapper">
+          <a href="{{ url_for('delete_project', project_id = project.id) }}">
+            <button class="btn__confirm-delete">Delete this project</button>
+          </a>
+        </div>
+      {% endif %}
     {% endif %}
     </div>
   </div>
