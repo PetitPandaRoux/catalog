@@ -28,6 +28,7 @@ from setup_database import Base, Member, Machine, Project, Tag
 import os
 
 app = Flask(__name__)
+app.secret_key = "super_secret_key"
 
 # Use Flask-login to facilitate session
 login_manager = LoginManager()
@@ -44,7 +45,7 @@ app.register_blueprint(github_blueprint, url_prefix='/catalog/login_github/')
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # DataBase Creation
-engine = create_engine('sqlite:///lepetitfablabdeparis.db')
+engine = create_engine('sqlite:////var/www/catalog/lepetitfablabdeparis.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 
@@ -405,7 +406,7 @@ def show_projects_tag(tag_name):
         tag_name=tag_name)
 
 
-if __name__ == '__main__':
-    app.secret_key = "super_secret_key"
-    app.debug = True
-    app.run(port=8800, threaded=False)
+#if __name__ == '__main__':
+#    app.secret_key = "super_secret_key"
+#    app.debug = True
+#    app.run()

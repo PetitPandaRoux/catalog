@@ -88,5 +88,5 @@ class Tag(Base):
     project = relationship(Project)
 
 
-engine = create_engine('sqlite:///lepetitfablabdeparis.db', encoding='utf-8')
+engine = create_engine('sqlite:////var/www/catalog/lepetitfablabdeparis.db', encoding='utf-8')
 Base.metadata.create_all(engine)
