@@ -1,67 +1,58 @@
-# CATALOG
+# CATALOG - AWS - DEPLOY
 
 This project is a training project from udacity full-stack nanodegree program. 
-The project emulate the need of a fablab, an organisation with members, machines and differents projects using differents tools (3D printing, laser cutting etc.)
+The project emulate the need of a fablab, an organisation with members, machines and differents projects using differents tools (3D printing, laser cutting etc.). It is hosted on amazon web service as a ubuntu16 server on this IP address: 
+http://35.180.62.188/
 
-## GETTING STARTED
+## Installation on server step by step
 
-### Installation
+On the server I installed :
+`sudo apt-get python`
+`sudo apt-get apache2`
+`sudo apt-get python-pip`
+`sudo apt-get install libapache2-mod-wsgi`
 
-To install the project you'll need :
-* [sqlite](https://sqlite.org/download.html)
-* [python2.7](https://www.python.org/downloads/) 
-* [virtualenv](https://virtualenv.pypa.io/en/latest/)
+I created 2 users, added them to the suddoers and created an encrypt key for each user
+- zak for me
+- grader for the reviewer
 
-### Setting up environement
+Then I cloned the repo : `git clone https://github.com/PetitPandaRoux/catalog.git`
+Switched to the `git checkout prod` branch
+To install all the dependencies I did a :
+`sudo -H pip install -r requirements.txt`, the -H is important if you are logged as a user created, otherwise when launching apache, he doesn't find python dependencies like flask. 
 
-To start the project, first :
-`git clone https://github.com/PetitPandaRoux/catalog.git`
-
-Set up your virtualenv using python 2.7 in the same directory :
-`virtualenv ENV --python=python2.7`
-Start the virtual environment :
-`source ENV/bin/activate`
-Install all dependencies :
-`pip install -r requirements.txt`
-
-### Setting up database
-You need to initiate the database :
-`python setup_database.py`
-
-Then you need to fill the database :
-`python fill_database.py`
-
-You should have lepetitfablabdeparis.db with some projects, members and machines.
-
-#### Running
-To start the project :
-`python catalog.py`
-You can then check with the browser: http://127.0.0.1:8800/
-You shoul have something that look like :
-
-![image](https://drive.google.com/uc?export=view&id=1iZ685bnapzS5nbkpilUY0FzsnPQqNNau
-)
-
-## WEB APP :
-
-For each project you can add a tag concerning the tool used to make the object
-For now you can edit, delete and add new projects only if you are login.
-To log in there are two options : 
-- use github Oauth, it will create a new user if not already in database
-- simply enter the name of a member (password management underconstruction)
-
-## API ENDPOINTS
-
-To access API endpoints to have a JSON list of members, projects and machines :
-http://127.0.0.1:8800/catalog/projects/JSON
-http://127.0.0.1:8800/catalog/members/JSON
-http://127.0.0.1:8800/catalog/machines/JSON
-
-For a specific member, machine or project :
-http://127.0.0.1:8800/catalog/machine/<id>/JSON
+## Securities, Port and firewall
+Amazon by default only allow ssh-key connection and forbid password connection
+I forbid root user `sudo nano /etc/ssh/sshd_config` 
+I changed the port for ssh to `2200` using `sudo nano /etc/ssh/sshd_config` 
+I needed to set port on the dashboard because Amazon put a firewall on top of hour configuration
+I blocked by default all incomming connection except for ssh, www and port 123/tcp
 
 
-## FURTHER DEVELOPMENT
-- Generate date of today when register using Oauth
-- Create a way to upload picture file to server and database
-- Create a password management for each user
+## Setting up WSGI and Apache2 and sqlite database 
+After installing Apache2 and libapache2-mod-wsgi I created a :
+- catalog.wsgi wich is the gate to my webapp
+- `/etc/apache2/sites-available nano catalog.conf` to configure apache2
+
+I deleted the default behavior of apache2 to set WSGI :
+- `sudo a2dissite 000-default.conf` 
+Use my own conf and reload service
+- `sudo a2ensite catalog.conf`
+- `sudo service apache2 reload`
+
+Then to run, a changed in owner of catalog folder and path to database were necessary.
+I changed every :
+```python
+engine = create_engine('sqlite:///lepetitfablabdeparis.db')
+```
+Inside the setup_database and inside catalog.py to
+```python
+engine = create_engine('sqlite:////var/www/catalog/lepetitfablabdeparis.db')
+```
+I changed the ownership of my var/www/catalog/ and of my database from root to www-data for apache2 to access, read and write in it.
+
+Then... IT WORKED !!!!!!!!!!
+
+Internet ressources useful :
+https://umar-yusuf.blogspot.com/2018/02/deploying-python-flask-web-app-on.html
+http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/
