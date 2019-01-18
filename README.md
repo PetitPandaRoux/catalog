@@ -65,3 +65,4 @@ http://127.0.0.1:8800/catalog/machine/<id>/JSON
 - Generate date of today when register using Oauth
 - Create a way to upload picture file to server and database
 - Create a password management for each user
+- Make the app responsive
