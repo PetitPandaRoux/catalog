@@ -29,7 +29,7 @@ rsa==3.4.2
 six==1.11.0
 SQLAlchemy==1.2.11
 SQLAlchemy-Utils==0.33.9
-urllib3==1.23
+urllib3==1.26.5
 URLObject==2.4.3
 webencodings==0.5.1
 Werkzeug==0.14.1
